@@ -1,0 +1,61 @@
+@model BorrowerFormViewModel
+@{
+    var branches = ViewBag.Branches as List<Branch> ?? new List<Branch>();
+}
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<input type="hidden" asp-for="Id" />
+
+@if (!string.IsNullOrEmpty(Model.CardNumber))
+{
+    <div class="field">
+        <label>Library card number</label>
+        <input value="@Model.CardNumber" disabled />
+    </div>
+}
+
+<div class="field">
+    <label asp-for="FullName">Full name</label>
+    <input asp-for="FullName" />
+    <span asp-validation-for="FullName" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="Email">Email</label>
+    <input asp-for="Email" type="email" />
+    <span asp-validation-for="Email" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="PhoneNumber"></label>
+    <input asp-for="PhoneNumber" type="tel" />
+    <span asp-validation-for="PhoneNumber" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="Address">Address</label>
+    <textarea asp-for="Address" rows="2"></textarea>
+</div>
+<div class="field">
+    <label asp-for="HomeBranchId"></label>
+    <select asp-for="HomeBranchId">
+        <option value="">-- No home branch --</option>
+        @foreach (var b in branches)
+        {
+            <option value="@b.Id">@b.Name (@b.Code)</option>
+        }
+    </select>
+</div>
+<div class="field">
+    <label asp-for="NotificationPreference"></label>
+    <select asp-for="NotificationPreference">
+        <option value="Email">Email</option>
+        <option value="Sms">SMS</option>
+        <option value="EmailAndSms">Email and SMS</option>
+    </select>
+    <p class="field-note">Notifications are simulated - they appear on the Notifications page instead of being sent.</p>
+</div>
+<div class="field">
+    <label asp-for="NewPin"></label>
+    <input asp-for="NewPin" inputmode="numeric" autocomplete="new-password" />
+    <span asp-validation-for="NewPin" class="field-error"></span>
+    <p class="field-note">
+        @(Model.HasPin ? "A PIN is set. Leave blank to keep it, or type a new one to reset it." : "Needed for the self-service kiosk and online holds. Leave blank to set it later.")
+    </p>
+</div>

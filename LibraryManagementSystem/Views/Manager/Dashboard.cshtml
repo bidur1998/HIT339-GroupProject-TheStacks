@@ -1,0 +1,98 @@
+@model ManagerDashboardViewModel
+@{
+    ViewData["Title"] = "Manager dashboard";
+    int maxStatusCount = Model.ItemsByStatus.Values.DefaultIfEmpty(0).Max();
+    int maxTypeCount = Model.ItemsByType.Values.DefaultIfEmpty(0).Max();
+}
+
+<h1>Manager dashboard</h1>
+<p class="field-note">A live snapshot of borrowing activity, item condition, and fines.
+    For branch-by-branch figures and CSV/PDF downloads, see <a asp-action="Reports">Reports</a>.</p>
+
+<section class="dashboard-section">
+    <h2>Borrowing statistics</h2>
+    <div class="stat-grid">
+        <div class="stat-block">
+            <div class="stat-value">@Model.TotalLoansEver</div>
+            <div class="stat-label">Loans of all time</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-value">@Model.CurrentlyBorrowed</div>
+            <div class="stat-label">Currently out</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-value">@Model.CurrentlyOverdue</div>
+            <div class="stat-label">Currently overdue</div>
+        </div>
+    </div>
+
+    @if (Model.MostBorrowedItems.Any())
+    {
+        <h3>Most borrowed items</h3>
+        @foreach (var stat in Model.MostBorrowedItems)
+        {
+            int width = Model.MostBorrowedItems.Max(s => s.TimesBorrowed) == 0
+                ? 0 : (int)(100.0 * stat.TimesBorrowed / Model.MostBorrowedItems.Max(s => s.TimesBorrowed));
+            <div class="bar-row">
+                <div class="bar-label">@stat.Name <span class="field-note">(@stat.ItemType)</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:@(width)%;"></div></div>
+                <div class="bar-count">@stat.TimesBorrowed</div>
+            </div>
+        }
+    }
+</section>
+
+<section class="dashboard-section">
+    <h2>Item status statistics</h2>
+    <div class="stat-grid">
+        <div class="stat-block">
+            <div class="stat-value">@Model.TotalItems</div>
+            <div class="stat-label">Items in the catalogue</div>
+        </div>
+    </div>
+
+    <h3>By status</h3>
+    @foreach (var kv in Model.ItemsByStatus)
+    {
+        int width = maxStatusCount == 0 ? 0 : (int)(100.0 * kv.Value / maxStatusCount);
+        string fillClass = kv.Key switch { ItemStatus.Available => "fill-green", ItemStatus.Damaged or ItemStatus.Destroyed => "fill-rust", _ => "" };
+        <div class="bar-row">
+            <div class="bar-label">@kv.Key</div>
+            <div class="bar-track"><div class="bar-fill @fillClass" style="width:@(width)%;"></div></div>
+            <div class="bar-count">@kv.Value</div>
+        </div>
+    }
+
+    <h3 style="margin-top:1.5rem;">By type</h3>
+    @foreach (var kv in Model.ItemsByType)
+    {
+        int width = maxTypeCount == 0 ? 0 : (int)(100.0 * kv.Value / maxTypeCount);
+        <div class="bar-row">
+            <div class="bar-label">@kv.Key</div>
+            <div class="bar-track"><div class="bar-fill" style="width:@(width)%;"></div></div>
+            <div class="bar-count">@kv.Value</div>
+        </div>
+    }
+</section>
+
+<section class="dashboard-section">
+    <h2>Fine statistics</h2>
+    <div class="stat-grid">
+        <div class="stat-block">
+            <div class="stat-value">$@Model.TotalFinesIssued.ToString("0.00")</div>
+            <div class="stat-label">Total fines issued</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-value">$@Model.TotalFinesCollected.ToString("0.00")</div>
+            <div class="stat-label">Collected</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-value">$@Model.TotalFinesOutstanding.ToString("0.00")</div>
+            <div class="stat-label">Outstanding</div>
+        </div>
+        <div class="stat-block">
+            <div class="stat-value">@Model.LoansWithFines</div>
+            <div class="stat-label">Loans that incurred a fine</div>
+        </div>
+    </div>
+</section>

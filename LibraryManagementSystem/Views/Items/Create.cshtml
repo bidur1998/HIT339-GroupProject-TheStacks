@@ -1,0 +1,9 @@
+@model ItemFormViewModel
+@{
+    ViewData["Title"] = "Add item";
+}
+
+<h1>Add a new item</h1>
+<form asp-action="Create" method="post">
+    <partial name="_ItemForm" />
+</form>

@@ -1,0 +1,11 @@
+@model string
+@* On-screen number pad. Model = id of the input it types into. *@
+<div class="keypad" data-target="@Model" aria-label="Number pad">
+    @for (int n = 1; n <= 9; n++)
+    {
+        <button type="button" data-key="@n">@n</button>
+    }
+    <button type="button" class="key-action" data-key="clear">Clear</button>
+    <button type="button" data-key="0">0</button>
+    <button type="button" class="key-action" data-key="back">&#9003; Back</button>
+</div>

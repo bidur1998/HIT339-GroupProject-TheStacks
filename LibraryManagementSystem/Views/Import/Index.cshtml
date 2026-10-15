@@ -1,0 +1,126 @@
+@model ImportIndexViewModel
+@{
+    ViewData["Title"] = "Import items";
+}
+
+<h1>Import items</h1>
+<p class="field-note">Add many items at once from a CSV file, or look titles up in an external metadata provider.</p>
+
+<section class="dashboard-section">
+    <h2>1. Bulk import from CSV</h2>
+    <p>
+        Columns: <code>@string.Join(", ", CatalogueImportService.AllColumns)</code>.
+        Only <code>ItemType</code>, <code>Name</code> and <code>LibraryCode</code> are always required; books also need an Author,
+        music an Artist and toys a ToyType. A blank <code>BranchCode</code> uses this installation's branch (@Model.DefaultBranchCode).
+        Up to @CatalogueImportService.MaxRows rows / 1 MB.
+        <a asp-action="Template">Download the template</a>.
+    </p>
+    <form asp-action="Preview" method="post" enctype="multipart/form-data" class="filter-bar">
+        <div class="field">
+            <label for="file">CSV file</label>
+            <input type="file" id="file" name="file" accept=".csv,text/csv" />
+        </div>
+        <button type="submit" class="btn btn-primary">Upload and check</button>
+    </form>
+
+    @if (Model.Preview is not null)
+    {
+        var p = Model.Preview;
+        <h3 style="margin-top:1.5rem;">Preview</h3>
+        @foreach (var e in p.FileErrors)
+        {
+            <div class="alert alert-error">@e</div>
+        }
+        @if (!p.FileErrors.Any())
+        {
+            <p><strong>@p.ValidCount</strong> row(s) ready to import, <strong>@p.InvalidCount</strong> row(s) with errors (these will be skipped).</p>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr><th>Row</th><th>Type</th><th>Name</th><th>Code</th><th>Branch</th><th>Result</th></tr></thead>
+                    <tbody>
+                        @foreach (var row in p.Rows)
+                        {
+                            <tr>
+                                <td>@row.RowNumber</td>
+                                <td>@row.ItemType</td>
+                                <td>@row.Name</td>
+                                <td>@row.LibraryCode</td>
+                                <td>@row.BranchCode</td>
+                                <td>
+                                    @if (row.IsValid)
+                                    {
+                                        <span class="badge badge-available">OK</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="field-error">@string.Join(" ", row.Errors)</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if (p.CanImport)
+            {
+                <form asp-action="Confirm" method="post" class="actions-row">
+                    <button type="submit" class="btn btn-primary">Import @p.ValidCount valid row(s)</button>
+                    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                </form>
+            }
+        }
+    }
+</section>
+
+<section class="dashboard-section">
+    <h2>2. Look up an external catalogue</h2>
+    <p class="field-note">Provider: <strong>@Model.ProviderName</strong> &mdash; a built-in mock data set used to simulate a public book/music metadata service. No internet connection is used.</p>
+    <form method="get" asp-action="Index" class="filter-bar">
+        <div class="field">
+            <label for="q">Title, author/artist or genre</label>
+            <input type="search" id="q" name="q" value="@Model.ExternalQuery" placeholder="e.g. Tolkien, jazz, Midnight Oil" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search provider</button>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ExternalQuery))
+    {
+        @if (!Model.ExternalResults.Any())
+        {
+            <p style="margin-top:1rem;">No records found for "@Model.ExternalQuery".</p>
+        }
+        else
+        {
+            <div class="table-scroll">
+                <table>
+                    <thead><tr><th>Title</th><th>By</th><th>Type</th><th>Year</th><th>Add to catalogue</th></tr></thead>
+                    <tbody>
+                        @foreach (var r in Model.ExternalResults)
+                        {
+                            <tr>
+                                <td>@r.Title<br /><span class="field-note">@r.Genre &middot; @r.ExternalId</span></td>
+                                <td>@r.Creator</td>
+                                <td>@r.MediaType</td>
+                                <td>@r.Year</td>
+                                <td>
+                                    <form asp-action="ImportExternal" method="post" style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                                        <input type="hidden" name="externalId" value="@r.ExternalId" />
+                                        <input type="hidden" name="q" value="@Model.ExternalQuery" />
+                                        <input type="text" name="libraryCode" placeholder="New code e.g. @(r.MediaType == "Music" ? "MU-2001" : "BK-2001")" required style="max-width:150px;" />
+                                        <select name="branchId" style="max-width:150px;">
+                                            @foreach (var b in Model.Branches)
+                                            {
+                                                <option value="@b.Id" selected="@(b.Code == Model.DefaultBranchCode)">@b.Name</option>
+                                            }
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+</section>

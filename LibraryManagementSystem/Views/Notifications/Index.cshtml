@@ -1,0 +1,81 @@
+@model NotificationsIndexViewModel
+@{
+    ViewData["Title"] = "Notifications";
+    bool canRun = User.IsInRole("Reception") || User.IsInRole("Admin");
+}
+
+<h1>Notification log</h1>
+<p class="field-note">
+    Every automated email and SMS the system has "sent". Sending is <strong>simulated</strong>: messages are written here
+    and to the server console instead of going to a real mail or SMS provider. @Model.TotalCount message(s) logged in total.
+</p>
+
+<div class="filter-bar">
+    <form method="get" style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:flex-end; flex:1;">
+        <div class="field">
+            <label for="type">Type</label>
+            <select id="type" name="type">
+                <option value="">All types</option>
+                @foreach (var t in Enum.GetValues<NotificationType>())
+                {
+                    <option value="@t" selected="@(Model.Type == t)">@t</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label for="channel">Channel</label>
+            <select id="channel" name="channel">
+                <option value="">Email and SMS</option>
+                <option value="Email" selected="@(Model.Channel == NotificationChannel.Email)">Email</option>
+                <option value="Sms" selected="@(Model.Channel == NotificationChannel.Sms)">SMS</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="query">Recipient or subject</label>
+            <input type="search" id="query" name="query" value="@Model.Query" />
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    @if (canRun)
+    {
+        <form asp-action="RunChecks" method="post">
+            <button type="submit" class="btn btn-secondary" title="Normally runs automatically every hour">Run reminder check now</button>
+        </form>
+    }
+</div>
+
+@if (!Model.Logs.Any())
+{
+    <p style="margin-top:1.5rem;">No notifications match this filter yet.</p>
+}
+else
+{
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr><th>When (UTC)</th><th>Type</th><th>Channel</th><th>To</th><th>Message</th><th>Delivery</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var n in Model.Logs)
+                {
+                    <tr>
+                        <td style="white-space:nowrap;">@n.CreatedAt.ToString("d MMM HH:mm")</td>
+                        <td>@n.Type</td>
+                        <td>@n.Channel</td>
+                        <td>@n.Recipient<br /><span class="field-note">@n.Borrower?.FullName</span></td>
+                        <td>
+                            <details>
+                                <summary>@n.Subject</summary>
+                                <pre class="message-body">@n.Body</pre>
+                            </details>
+                        </td>
+                        <td>
+                            <span class="badge @(n.DeliveryStatus == DeliveryStatus.Simulated ? "badge-available" : "badge-damaged")">@n.DeliveryStatus</span>
+                            <div class="field-note">@n.StatusDetail</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

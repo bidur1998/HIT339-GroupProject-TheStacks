@@ -1,0 +1,164 @@
+/* =========================================================================
+   Kiosk styles (Group Project - Public Self-Service Kiosk)
+   Built for a touch screen on a stand in the library: large text, buttons
+   at least 64px tall (well above the ~44px minimum touch target), high
+   contrast, nothing that needs a mouse hover, and no page scrolling on the
+   main screens.
+   ========================================================================= */
+
+body.kiosk {
+  background: var(--green-dark);
+  color: #fffdf8;
+  font-size: 20px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.kiosk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--green);
+  border-bottom: 4px solid var(--brass);
+}
+
+.kiosk-brand { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; }
+.kiosk-brand span { font-family: var(--font-body); font-size: 1.1rem; font-weight: 400; color: #cfc4ab; }
+
+.kiosk-main {
+  flex: 1;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.kiosk h1, .kiosk h2, .kiosk h3 { color: #fffdf8; }
+.kiosk h1 { font-size: 2.6rem; }
+.kiosk p.lead { font-size: 1.3rem; color: #e6dcc6; }
+
+.kiosk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  min-width: 64px;
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.25rem;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--brass);
+  color: #1f1a14;
+}
+.kiosk-btn:active { transform: scale(0.98); }
+.kiosk-btn-secondary { background: transparent; color: #fffdf8; border-color: #cfc4ab; }
+.kiosk-btn-finish { background: var(--rust); color: #fff; min-height: 52px; font-size: 1.05rem; }
+.kiosk-btn-wide { width: 100%; }
+
+.kiosk-input {
+  width: 100%;
+  font-size: 2rem;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  border: 3px solid var(--brass);
+  background: #fffdf8;
+  color: var(--ink);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.kiosk-scan-row { display: flex; gap: 1rem; margin: 1.5rem 0; }
+.kiosk-scan-row .kiosk-input { flex: 1; }
+
+.kiosk-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.kiosk-tile {
+  display: block;
+  padding: 2rem 1.5rem;
+  min-height: 170px;
+  border-radius: 10px;
+  background: #fffdf8;
+  color: var(--ink);
+  text-decoration: none;
+  border-left: 10px solid var(--brass);
+}
+.kiosk-tile h2 { color: var(--green-dark); font-size: 1.8rem; margin-bottom: 0.4rem; }
+.kiosk-tile p { margin: 0; color: var(--ink-soft); font-size: 1.1rem; }
+
+/* On-screen number pad for card numbers and PINs */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  max-width: 420px;
+  margin: 1.5rem auto;
+}
+.keypad button {
+  min-height: 76px;
+  font-size: 2rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  background: #fffdf8;
+  color: var(--ink);
+  cursor: pointer;
+}
+.keypad button.key-action { background: var(--paper-dark); font-size: 1.2rem; }
+.keypad button:active { background: var(--brass); }
+
+.kiosk-alert {
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.kiosk-alert-ok { background: #e7efe4; color: var(--green-dark); }
+.kiosk-alert-error { background: #f4ddd6; color: #7e3120; }
+
+.kiosk-panel {
+  background: #fffdf8;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.kiosk-panel h2 { color: var(--green-dark); font-size: 1.5rem; }
+.kiosk-panel table { margin-top: 0.5rem; font-size: 1rem; }
+.kiosk-panel th, .kiosk-panel td { font-size: 1rem; }
+
+.kiosk-figures { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0 1.5rem 0; }
+.kiosk-figure { background: #fffdf8; color: var(--ink); border-radius: 8px; padding: 0.9rem 1.2rem; min-width: 180px; }
+.kiosk-figure strong { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--green-dark); }
+
+.kiosk-open-badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 1rem; font-weight: 700; }
+.kiosk-open-badge.open { background: #e7efe4; color: var(--green-dark); }
+.kiosk-open-badge.closed { background: #f4ddd6; color: #7e3120; }
+
+.kiosk-idle-warning {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  background: var(--brass);
+  color: #1f1a14;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+@media (max-width: 700px) {
+  .kiosk-main { padding: 1rem; }
+  .kiosk h1 { font-size: 2rem; }
+  .kiosk-scan-row { flex-direction: column; }
+}

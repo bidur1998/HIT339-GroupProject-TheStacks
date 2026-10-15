@@ -1,0 +1,41 @@
+@model List<Borrower>
+@{
+    ViewData["Title"] = "Borrowers";
+}
+
+<h1>Borrowers</h1>
+<div class="actions-row" style="margin-top:0; margin-bottom:1.25rem;">
+    <a class="btn btn-primary" asp-action="Create">+ Add new borrower</a>
+</div>
+
+@if (!Model.Any())
+{
+    <p>No borrowers registered yet.</p>
+}
+else
+{
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Card</th><th>Email</th><th>Phone</th><th>Outstanding fines</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td>@b.FullName</td>
+                        <td>@(b.CardNumber ?? "—")</td>
+                        <td>@b.Email</td>
+                        <td>@(b.PhoneNumber ?? "—")</td>
+                        <td>@(b.OutstandingFines > 0 ? $"${b.OutstandingFines:0.00}" : "—")</td>
+                        <td>
+                            <a class="btn btn-sm btn-secondary" asp-action="Details" asp-route-id="@b.Id">View</a>
+                            <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@b.Id">Edit</a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@b.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

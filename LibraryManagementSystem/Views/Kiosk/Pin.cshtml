@@ -1,0 +1,21 @@
+@model KioskPinViewModel
+@{
+    Layout = "_KioskLayout";
+    ViewData["Title"] = "Enter your PIN";
+}
+
+<h1>Enter your PIN</h1>
+<p class="lead">Card @Model.MaskedCard</p>
+
+<form asp-action="Pin" method="post" autocomplete="off">
+    <div class="kiosk-scan-row">
+        <input id="Pin" name="Pin" type="password" class="kiosk-input" inputmode="numeric" maxlength="6"
+               placeholder="&bull;&bull;&bull;&bull;" autofocus />
+        <button type="submit" class="kiosk-btn">Sign in</button>
+    </div>
+    <partial name="_Keypad" model='"Pin"' />
+</form>
+
+<p style="text-align:center;">
+    <a class="kiosk-btn kiosk-btn-secondary" asp-action="Index">&larr; Not your card? Start again</a>
+</p>

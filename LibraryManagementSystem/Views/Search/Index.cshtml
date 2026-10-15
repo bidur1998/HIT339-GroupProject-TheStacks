@@ -1,0 +1,68 @@
+@model SearchViewModel
+@{
+    ViewData["Title"] = "Search the catalogue";
+    bool hasSearched = !string.IsNullOrWhiteSpace(Model.Query) || !string.IsNullOrWhiteSpace(Model.TypeFilter) || Model.AvailableOnly || Model.BranchId.HasValue;
+}
+
+<h1>Search the catalogue</h1>
+<p class="field-note">Open to everyone &mdash; no account needed. Works just as well on your phone.</p>
+
+<form method="get" class="filter-bar">
+    <div class="field">
+        <label for="query">Search</label>
+        <input type="search" id="query" name="query" value="@Model.Query" placeholder="Title, code, author, artist&hellip;" />
+    </div>
+    <div class="field">
+        <label for="typeFilter">Type</label>
+        <select id="typeFilter" name="typeFilter">
+            <option value="All" selected="@(string.IsNullOrEmpty(Model.TypeFilter) || Model.TypeFilter == "All")">All types</option>
+            <option value="Book" selected="@(Model.TypeFilter == "Book")">Books</option>
+            <option value="Toy" selected="@(Model.TypeFilter == "Toy")">Toys</option>
+            <option value="Music" selected="@(Model.TypeFilter == "Music")">Music</option>
+        </select>
+    </div>
+    <div class="field">
+        <label for="branchId">Branch</label>
+        <select id="branchId" name="branchId">
+            <option value="" selected="@(Model.BranchId is null)">All branches</option>
+            @foreach (var b in Model.Branches)
+            {
+                <option value="@b.Id" selected="@(Model.BranchId == b.Id)">@b.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-check" style="margin-bottom:0;">
+        <input type="checkbox" id="availableOnly" name="availableOnly" value="true" checked="@Model.AvailableOnly" />
+        <label for="availableOnly">Available only</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (!hasSearched)
+{
+    <p style="margin-top:2rem;">Type something above, or pick a type or branch, to see what's on the shelves.</p>
+}
+else if (!Model.Results.Any())
+{
+    <p style="margin-top:2rem;">No items matched your search. Try a different word, or clear the filters.</p>
+}
+else
+{
+    <p style="margin-top:1.5rem;">@Model.Results.Count item@(Model.Results.Count == 1 ? "" : "s") found.</p>
+    <div class="card-grid">
+        @foreach (var item in Model.Results)
+        {
+            <div class="index-card type-@item.ItemType.ToLower()">
+                <div class="item-code">@item.LibraryCode</div>
+                <h3>@item.Name</h3>
+                <div class="item-extra">@item.ItemType &middot; @item.ExtraInfoSummary</div>
+                <div class="item-extra">At: @(item.CurrentBranch?.Name ?? "—")</div>
+                <span class="badge badge-@item.Status.ToString().ToLower()">@item.Status</span>
+                @if (item.Status is ItemStatus.Borrowed or ItemStatus.Damaged)
+                {
+                    <a class="btn btn-sm btn-secondary card-action" asp-controller="Reservations" asp-action="Place" asp-route-id="@item.Id">Place a hold</a>
+                }
+            </div>
+        }
+    </div>
+}

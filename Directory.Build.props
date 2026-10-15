@@ -1,0 +1,16 @@
+<Project>
+  <!--
+    Applies to every project in this solution.
+
+    Known dependency advisory GHSA-2m69-gcr7-jv3q (warning NU1903) affects
+    SQLitePCLRaw.lib.e_sqlite3 2.1.11, which EF Core's SQLite provider pulls in.
+    The advisory lists no patched version of that package yet, so the warning
+    can't be fixed by upgrading. It is suppressed here (only this one advisory,
+    nothing else) because Visual Studio's Package Manager Console treats the
+    warning as an error and stops Add-Migration / Update-Database.
+    The risk is recorded in README.md (Security summary) and the project portfolio.
+  -->
+  <ItemGroup>
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-2m69-gcr7-jv3q" />
+  </ItemGroup>
+</Project>

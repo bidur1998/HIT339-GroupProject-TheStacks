@@ -1,0 +1,108 @@
+@model PatronAccountSummary
+@{
+    Layout = "_KioskLayout";
+    ViewData["Title"] = "My account";
+}
+
+<h1>My account</h1>
+<p class="lead">@Model.Borrower.FullName &middot; card @Model.Borrower.CardNumber</p>
+
+<div class="kiosk-panel">
+    <h2>On loan (@Model.CurrentLoans.Count)</h2>
+    @if (!Model.CurrentLoans.Any())
+    {
+        <p>Nothing on loan right now.</p>
+    }
+    else
+    {
+        <table>
+            <thead><tr><th>Item</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+                @foreach (var loan in Model.CurrentLoans)
+                {
+                    <tr>
+                        <td>@loan.ItemName</td>
+                        <td>@loan.DueDate.ToString("ddd d MMM")</td>
+                        <td>
+                            @if (loan.DaysOverdue > 0)
+                            {
+                                <span class="badge badge-overdue">@loan.DaysOverdue days overdue &middot; $@loan.Fine.ToString("0.00") so far</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-available">On time</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="kiosk-panel">
+    <h2>Fines</h2>
+    <p>
+        Unpaid: <strong>$@Model.OutstandingFines.ToString("0.00")</strong>
+        @if (Model.AccruingFines > 0)
+        {
+            <span> &middot; building up on overdue items: <strong>$@Model.AccruingFines.ToString("0.00")</strong> (charged when returned)</span>
+        }
+    </p>
+    @foreach (var fine in Model.UnpaidFines)
+    {
+        <p style="margin:0.2rem 0;">@fine.ItemName &mdash; returned @fine.ReturnedDate?.ToString("d MMM") &mdash; $@fine.Fine.ToString("0.00")</p>
+    }
+    @if (Model.OutstandingFines > 0)
+    {
+        <p style="margin-bottom:0;">Fines can be paid at any branch reception desk.</p>
+    }
+</div>
+
+<div class="kiosk-panel">
+    <h2>Reservations (@Model.Reservations.Count)</h2>
+    @if (!Model.Reservations.Any())
+    {
+        <p>No holds. You can reserve borrowed or damaged items from the online catalogue.</p>
+    }
+    else
+    {
+        <table>
+            <thead><tr><th>Item</th><th>Status</th><th>Pick up at</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var r in Model.Reservations)
+                {
+                    <tr>
+                        <td>@r.ItemName</td>
+                        <td>
+                            @switch (r.Status)
+                            {
+                                case ReservationStatus.ReadyForPickup:
+                                    <strong>Ready! Collect by @r.HoldExpiresAt?.ToString("ddd d MMM")</strong>
+                                    break;
+                                case ReservationStatus.AwaitingTransfer:
+                                    <span>On its way to your branch</span>
+                                    break;
+                                default:
+                                    <span>Waiting &middot; #@r.QueuePosition in queue</span>
+                                    break;
+                            }
+                        </td>
+                        <td>@r.PickupBranch</td>
+                        <td>
+                            <form asp-action="CancelHold" method="post">
+                                <input type="hidden" name="reservationId" value="@r.ReservationId" />
+                                <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="actions-row">
+    <a class="kiosk-btn kiosk-btn-secondary" asp-action="Menu">&larr; Back to menu</a>
+    <a class="kiosk-btn" asp-action="Checkout">Check out items</a>
+</div>

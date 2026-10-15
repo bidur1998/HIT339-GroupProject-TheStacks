@@ -1,0 +1,56 @@
+@model TransfersIndexViewModel
+@{
+    ViewData["Title"] = "Transfers";
+}
+
+<h1>Inter-branch transfers</h1>
+<p class="field-note">
+    Working at <strong>@(Model.DeskBranch?.Name ?? "no branch")</strong>.
+    A transfer goes Requested &rarr; In transit (sending branch dispatches) &rarr; Received (receiving branch checks it in).
+    The item's location only changes when it's received.
+</p>
+
+<section class="dashboard-section">
+    <h2>Request a transfer</h2>
+    <form asp-action="RequestTransfer" method="post" class="filter-bar">
+        <div class="field">
+            <label asp-for="NewRequest.LibraryCode"></label>
+            <input asp-for="NewRequest.LibraryCode" placeholder="e.g. BK-0004" />
+        </div>
+        <div class="field">
+            <label asp-for="NewRequest.ToBranchId"></label>
+            <select asp-for="NewRequest.ToBranchId">
+                <option value="">-- Choose --</option>
+                @foreach (var b in Model.Branches)
+                {
+                    <option value="@b.Id">@b.Name</option>
+                }
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="NewRequest.Reason"></label>
+            <input asp-for="NewRequest.Reason" placeholder="Optional" />
+        </div>
+        <button type="submit" class="btn btn-primary">Request</button>
+    </form>
+</section>
+
+<section class="dashboard-section">
+    <h2>To send from here (@Model.ToDispatch.Count)</h2>
+    <partial name="_TransferTable" model="Model.ToDispatch" />
+</section>
+
+<section class="dashboard-section">
+    <h2>On the way here (@Model.ToReceive.Count)</h2>
+    <partial name="_TransferTable" model="Model.ToReceive" />
+</section>
+
+<section class="dashboard-section">
+    <h2>Other open transfers (@Model.OtherOpen.Count)</h2>
+    <partial name="_TransferTable" model="Model.OtherOpen" />
+</section>
+
+<section class="dashboard-section">
+    <h2>Recently completed or cancelled</h2>
+    <partial name="_TransferTable" model="Model.RecentlyClosed" />
+</section>

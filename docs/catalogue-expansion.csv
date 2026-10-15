@@ -1,0 +1,142 @@
+ItemType,Name,Description,LibraryCode,Author,Genre,Artist,Year,ToyType,RecommendedAge,BranchCode
+Book,To Kill a Mockingbird,A lawyer in 1930s Alabama defends a Black man accused of a crime he didn't commit.,BK-5001,Harper Lee,Classic,,,,,DAR
+Book,Pride and Prejudice,,BK-5002,Jane Austen,Classic,,,,,CAS
+Book,Jane Eyre,,BK-5003,Charlotte Bronte,Classic,,,,,PAL
+Book,Wuthering Heights,,BK-5004,Emily Bronte,Classic,,,,,DAR
+Book,Great Expectations,,BK-5005,Charles Dickens,Classic,,,,,CAS
+Book,Moby-Dick,Captain Ahab's obsessive hunt for the white whale.,BK-5006,Herman Melville,Classic,,,,,PAL
+Book,The Catcher in the Rye,,BK-5007,J.D. Salinger,Classic,,,,,DAR
+Book,Of Mice and Men,,BK-5008,John Steinbeck,Classic,,,,,CAS
+Book,The Grapes of Wrath,,BK-5009,John Steinbeck,Classic,,,,,PAL
+Book,Animal Farm,A farmyard revolution that goes wrong.,BK-5010,George Orwell,Classic,,,,,DAR
+Book,Lord of the Flies,,BK-5011,William Golding,Classic,,,,,CAS
+Book,Brave New World,,BK-5012,Aldous Huxley,Dystopian,,,,,PAL
+Book,Fahrenheit 451,,BK-5013,Ray Bradbury,Dystopian,,,,,DAR
+Book,The Handmaid's Tale,,BK-5014,Margaret Atwood,Dystopian,,,,,CAS
+Book,The Road,,BK-5015,Cormac McCarthy,Post-apocalyptic,,,,,PAL
+Book,Never Let Me Go,,BK-5016,Kazuo Ishiguro,Literary Fiction,,,,,DAR
+Book,The Remains of the Day,,BK-5017,Kazuo Ishiguro,Literary Fiction,,,,,CAS
+Book,Life of Pi,"A boy, a lifeboat and a Bengal tiger.",BK-5018,Yann Martel,Adventure,,,,,PAL
+Book,The Kite Runner,,BK-5019,Khaled Hosseini,Literary Fiction,,,,,DAR
+Book,The Alchemist,,BK-5020,Paulo Coelho,Fable,,,,,CAS
+Book,One Hundred Years of Solitude,,BK-5021,Gabriel Garcia Marquez,Magical Realism,,,,,PAL
+Book,Beloved,,BK-5022,Toni Morrison,Literary Fiction,,,,,DAR
+Book,The Harp in the South,"Family life in Surry Hills, Sydney, after the war.",BK-5023,Ruth Park,Australian Fiction,,,,,CAS
+Book,My Brilliant Career,,BK-5024,Miles Franklin,Australian Fiction,,,,,PAL
+Book,The Thorn Birds,,BK-5025,Colleen McCullough,Australian Fiction,,,,,DAR
+Book,Picnic at Hanging Rock,,BK-5026,Joan Lindsay,Australian Fiction,,,,,CAS
+Book,Jasper Jones,,BK-5027,Craig Silvey,Australian Fiction,,,,,PAL
+Book,The Dry,A detective returns to his drought-stricken home town for a funeral.,BK-5028,Jane Harper,Crime,,,,,DAR
+Book,Boy Swallows Universe,,BK-5029,Trent Dalton,Australian Fiction,,,,,CAS
+Book,The Rosie Project,,BK-5030,Graeme Simsion,Romantic Comedy,,,,,PAL
+Book,Breath,,BK-5031,Tim Winton,Australian Fiction,,,,,DAR
+Book,Dirt Music,,BK-5032,Tim Winton,Australian Fiction,,,,,CAS
+Book,True History of the Kelly Gang,,BK-5033,Peter Carey,Historical Fiction,,,,,PAL
+Book,Oscar and Lucinda,,BK-5034,Peter Carey,Historical Fiction,,,,,DAR
+Book,The Narrow Road to the Deep North,,BK-5035,Richard Flanagan,Historical Fiction,,,,,CAS
+Book,Seven Little Australians,,BK-5036,Ethel Turner,Children's,,,,,PAL
+Book,Possum Magic,"Grandma Poss makes Hush invisible, then can't make her visible again.",BK-5037,Mem Fox,Children's,,,,,DAR
+Book,Hating Alison Ashley,,BK-5038,Robin Klein,Children's,,,,,CAS
+Book,Storm Boy,,BK-5039,Colin Thiele,Children's,,,,,PAL
+Book,The Magic Pudding,,BK-5040,Norman Lindsay,Children's,,,,,DAR
+Book,"Tomorrow, When the War Began",Seven teenagers come back from a camping trip to find their town invaded.,BK-5041,John Marsden,Young Adult,,,,,CAS
+Book,Looking for Alibrandi,,BK-5042,Melina Marchetta,Young Adult,,,,,PAL
+Book,Charlotte's Web,,BK-5043,E.B. White,Children's,,,,,DAR
+Book,The Gruffalo,,BK-5044,Julia Donaldson,Children's,,,,,CAS
+Book,Green Eggs and Ham,,BK-5045,Dr. Seuss,Children's,,,,,PAL
+Book,The Cat in the Hat,,BK-5046,Dr. Seuss,Children's,,,,,DAR
+Book,Charlie and the Chocolate Factory,,BK-5047,Roald Dahl,Children's,,,,,CAS
+Book,The BFG,,BK-5048,Roald Dahl,Children's,,,,,PAL
+Book,Wonder,,BK-5049,R.J. Palacio,Children's,,,,,DAR
+Book,Harry Potter and the Philosopher's Stone,,BK-5050,J.K. Rowling,Fantasy,,,,,CAS
+Book,"The Lion, the Witch and the Wardrobe",,BK-5051,C.S. Lewis,Fantasy,,,,,PAL
+Book,A Wizard of Earthsea,,BK-5052,Ursula K. Le Guin,Fantasy,,,,,DAR
+Book,The Name of the Wind,,BK-5053,Patrick Rothfuss,Fantasy,,,,,CAS
+Book,Good Omens,,BK-5054,Terry Pratchett and Neil Gaiman,Fantasy,,,,,PAL
+Book,The Colour of Magic,,BK-5055,Terry Pratchett,Fantasy,,,,,DAR
+Book,American Gods,,BK-5056,Neil Gaiman,Fantasy,,,,,CAS
+Book,The Hitchhiker's Guide to the Galaxy,Don't panic.,BK-5057,Douglas Adams,Science Fiction,,,,,PAL
+Book,Ender's Game,,BK-5058,Orson Scott Card,Science Fiction,,,,,DAR
+Book,Neuromancer,,BK-5059,William Gibson,Science Fiction,,,,,CAS
+Book,The Left Hand of Darkness,,BK-5060,Ursula K. Le Guin,Science Fiction,,,,,PAL
+Book,The Martian,An astronaut stranded on Mars has to science his way home.,BK-5061,Andy Weir,Science Fiction,,,,,DAR
+Book,Project Hail Mary,,BK-5062,Andy Weir,Science Fiction,,,,,CAS
+Book,And Then There Were None,,BK-5063,Agatha Christie,Crime,,,,,PAL
+Book,Murder on the Orient Express,,BK-5064,Agatha Christie,Crime,,,,,DAR
+Book,The Hound of the Baskervilles,,BK-5065,Arthur Conan Doyle,Crime,,,,,CAS
+Book,The Big Sleep,,BK-5066,Raymond Chandler,Crime,,,,,PAL
+Book,Gone Girl,,BK-5067,Gillian Flynn,Crime,,,,,DAR
+Book,The Girl with the Dragon Tattoo,,BK-5068,Stieg Larsson,Crime,,,,,CAS
+Book,Sapiens,,BK-5069,Yuval Noah Harari,History,,,,,PAL
+Book,"Guns, Germs, and Steel",,BK-5070,Jared Diamond,History,,,,,DAR
+Book,A Brief History of Time,,BK-5071,Stephen Hawking,Science,,,,,CAS
+Book,The Selfish Gene,,BK-5072,Richard Dawkins,Science,,,,,PAL
+Book,The Immortal Life of Henrietta Lacks,,BK-5073,Rebecca Skloot,Science,,,,,DAR
+Book,Being Mortal,"Medicine, ageing and what matters at the end of life.",BK-5074,Atul Gawande,Health,,,,,CAS
+Book,The Emperor of All Maladies,,BK-5075,Siddhartha Mukherjee,Health,,,,,PAL
+Book,Educated,,BK-5076,Tara Westover,Memoir,,,,,DAR
+Book,"Thinking, Fast and Slow",,BK-5077,Daniel Kahneman,Psychology,,,,,CAS
+Book,Quiet,,BK-5078,Susan Cain,Psychology,,,,,PAL
+Book,Atomic Habits,,BK-5079,James Clear,Self-help,,,,,DAR
+Book,The Mythical Man-Month,,BK-5080,Frederick P. Brooks Jr.,Software Engineering,,,,,CAS
+Book,Code Complete,,BK-5081,Steve McConnell,Software Engineering,,,,,PAL
+Book,Head First Design Patterns,,BK-5082,Eric Freeman and Elisabeth Robson,Software Engineering,,,,,DAR
+Book,Introduction to Algorithms,,BK-5083,"Cormen, Leiserson, Rivest and Stein",Computer Science,,,,,CAS
+Book,Domain-Driven Design,,BK-5084,Eric Evans,Software Engineering,,,,,PAL
+Book,Working Effectively with Legacy Code,,BK-5085,Michael Feathers,Software Engineering,,,,,DAR
+Book,Test Driven Development: By Example,,BK-5086,Kent Beck,Software Engineering,,,,,CAS
+Book,The Phoenix Project,"A novel about IT, DevOps and helping a business win.",BK-5087,"Gene Kim, Kevin Behr and George Spafford",Software Engineering,,,,,PAL
+Music,Rumours,Album,MU-5001,,,Fleetwood Mac,1977,,,DAR
+Music,Back in Black,Album,MU-5002,,,AC/DC,1980,,,CAS
+Music,Highway to Hell,Album,MU-5003,,,AC/DC,1979,,,PAL
+Music,Kick,Album,MU-5004,,,INXS,1987,,,DAR
+Music,Woodface,Album,MU-5005,,,Crowded House,1991,,,CAS
+Music,Tribal Voice,Album,MU-5006,,,Yothu Yindi,1991,,,PAL
+Music,Gurrumul,Album,MU-5007,,,Geoffrey Gurrumul Yunupingu,2008,,,DAR
+Music,Currents,Album,MU-5008,,,Tame Impala,2015,,,CAS
+Music,Lonerism,Album,MU-5009,,,Tame Impala,2012,,,PAL
+Music,The Dark Side of the Moon,Album,MU-5010,,,Pink Floyd,1973,,,DAR
+Music,The Wall,Album,MU-5011,,,Pink Floyd,1979,,,CAS
+Music,Led Zeppelin IV,Album,MU-5012,,,Led Zeppelin,1971,,,PAL
+Music,Hotel California,Album,MU-5013,,,Eagles,1976,,,DAR
+Music,Born in the U.S.A.,Album,MU-5014,,,Bruce Springsteen,1984,,,CAS
+Music,Purple Rain,Album,MU-5015,,,Prince and The Revolution,1984,,,PAL
+Music,Like a Prayer,Album,MU-5016,,,Madonna,1989,,,DAR
+Music,OK Computer,Album,MU-5017,,,Radiohead,1997,,,CAS
+Music,Jagged Little Pill,Album,MU-5018,,,Alanis Morissette,1995,,,PAL
+Music,The Miseducation of Lauryn Hill,Album,MU-5019,,,Lauryn Hill,1998,,,DAR
+Music,21,Album,MU-5020,,,Adele,2011,,,CAS
+Music,1989,Album,MU-5021,,,Taylor Swift,2014,,,PAL
+Music,Random Access Memories,Album,MU-5022,,,Daft Punk,2013,,,DAR
+Music,Kind of Blue,Album,MU-5023,,,Miles Davis,1959,,,CAS
+Music,A Love Supreme,Album,MU-5024,,,John Coltrane,1965,,,PAL
+Music,Tapestry,Album,MU-5025,,,Carole King,1971,,,DAR
+Music,Graceland,Album,MU-5026,,,Paul Simon,1986,,,CAS
+Music,Legend,Album,MU-5027,,,Bob Marley and the Wailers,1984,,,PAL
+Music,Songs in the Key of Life,Album,MU-5028,,,Stevie Wonder,1976,,,DAR
+Music,What's Going On,Album,MU-5029,,,Marvin Gaye,1971,,,CAS
+Music,Sgt. Pepper's Lonely Hearts Club Band,Album,MU-5030,,,The Beatles,1967,,,PAL
+Music,Pet Sounds,Album,MU-5031,,,The Beach Boys,1966,,,DAR
+Music,The Joshua Tree,Album,MU-5032,,,U2,1987,,,CAS
+Music,Bad,Album,MU-5033,,,Michael Jackson,1987,,,PAL
+Toy,Wooden Train Set,"Track pieces, bridge and three carriages.",TY-5001,,,,,Vehicles,3,DAR
+Toy,Big Brick Starter Bucket,"80 large, chunky bricks for little hands.",TY-5002,,,,,Construction,2,CAS
+Toy,Marble Run,,TY-5003,,,,,Construction,6,PAL
+Toy,Gear Building Set,,TY-5004,,,,,Construction,5,DAR
+Toy,Snakes and Ladders,,TY-5005,,,,,Board game,4,CAS
+Toy,Word Tile Game,,TY-5006,,,,,Board game,8,PAL
+Toy,Checkers Set,,TY-5007,,,,,Board game,6,DAR
+Toy,Dominoes,"Double-six set, 28 tiles.",TY-5008,,,,,Board game,5,CAS
+Toy,Colour Match Card Game,,TY-5009,,,,,Card game,6,PAL
+Toy,Australian Animals Floor Puzzle,48 large pieces.,TY-5010,,,,,Puzzle,4,DAR
+Toy,Uluru Jigsaw (1000 pieces),,TY-5011,,,,,Puzzle,12,CAS
+Toy,Microscope Kit,"Includes slides, tweezers and a guide.",TY-5012,,,,,Educational,8,PAL
+Toy,Solar System Model Kit,,TY-5013,,,,,Educational,9,DAR
+Toy,Screen-free Coding Robot,,TY-5014,,,,,Educational,5,CAS
+Toy,Play Kitchen Set,,TY-5015,,,,,Pretend play,3,PAL
+Toy,Doctor's Kit,"Stethoscope, thermometer, bandages and more.",TY-5016,,,,,Pretend play,3,DAR
+Toy,Puppet Theatre,,TY-5017,,,,,Pretend play,4,CAS
+Toy,Rainbow Stacking Rings,,TY-5018,,,,,Baby,0,PAL
+Toy,Shape Sorter,,TY-5019,,,,,Baby,1,DAR
+Toy,Kite,,TY-5020,,,,,Outdoor,6,CAS
+Toy,Skipping Ropes (set of 3),,TY-5021,,,,,Outdoor,5,PAL

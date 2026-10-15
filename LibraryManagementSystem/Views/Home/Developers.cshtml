@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Developer API";
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
+}
+
+<h1>Developer API</h1>
+<p>
+    The Stacks offers a <strong>read-only</strong> REST API so other apps (a council website, a mobile app, a digital sign) can
+    show what's in the catalogue and whether a branch is open. It returns JSON and only supports <code>GET</code>.
+</p>
+
+<h2>Authentication</h2>
+<p>Every request needs an API key in the <code>X-Api-Key</code> header. Keys are issued by the library and configured in
+    <code>appsettings.json</code> (<code>ApiSettings:Clients</code>). Requests without a valid key get <code>401</code>.
+    Each key is limited to a set number of requests per minute (<code>429</code> if exceeded).</p>
+<pre class="message-body">curl -H "X-Api-Key: YOUR-KEY" @baseUrl/api/v1/status</pre>
+
+<h2>Endpoints</h2>
+<div class="table-scroll">
+    <table>
+        <thead><tr><th>GET</th><th>Returns</th><th>Query options</th></tr></thead>
+        <tbody>
+            <tr><td><code>/api/v1/status</code></td><td>Service health and how many branches are open now</td><td>&mdash;</td></tr>
+            <tr><td><code>/api/v1/catalogue</code></td><td>Paged list of catalogue items with status and branch</td>
+                <td><code>search</code>, <code>type</code> (Book/Toy/Music), <code>branch</code> (code), <code>availableOnly</code>, <code>page</code>, <code>pageSize</code> (max 50)</td></tr>
+            <tr><td><code>/api/v1/catalogue/{libraryCode}</code></td><td>One item</td><td>&mdash;</td></tr>
+            <tr><td><code>/api/v1/categories</code></td><td>Item types with counts, broken down by genre / toy type / decade</td><td>&mdash;</td></tr>
+            <tr><td><code>/api/v1/branches</code></td><td>Every branch with hours and open/closed status</td><td>&mdash;</td></tr>
+            <tr><td><code>/api/v1/branches/{code}/status</code></td><td>Operating status for one branch</td><td>&mdash;</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Example response</h2>
+<pre class="message-body">GET /api/v1/catalogue?search=hobbit
+{
+  "page": 1, "pageSize": 20, "totalCount": 1, "totalPages": 1,
+  "items": [
+    { "libraryCode": "BK-0001", "name": "The Hobbit", "type": "Book",
+      "details": "by J.R.R. Tolkien (Fantasy)", "status": "Borrowed", "isAvailable": false,
+      "branchCode": "DAR", "branchName": "Darwin City", "waitlistLength": 1, ... }
+  ]
+}</pre>
+<p class="field-note">No personal information (borrowers, loans, fines) is ever available through the API.</p>

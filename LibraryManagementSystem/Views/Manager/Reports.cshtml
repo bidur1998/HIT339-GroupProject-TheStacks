@@ -1,0 +1,95 @@
+@model ReportsViewModel
+@{
+    ViewData["Title"] = "Reports";
+    var routeValues = new Dictionary<string, string>
+    {
+        ["reportType"] = Model.ReportType.ToString(),
+        ["branchId"] = Model.BranchId?.ToString() ?? "",
+        ["from"] = Model.From?.ToString("yyyy-MM-dd") ?? "",
+        ["to"] = Model.To?.ToString("yyyy-MM-dd") ?? ""
+    };
+}
+
+<h1>Reports and exports</h1>
+<p class="field-note">Pick a report and filters, check it on screen, then download it as CSV (for Excel) or PDF (for printing or emailing).</p>
+
+<form method="get" class="filter-bar">
+    <div class="field">
+        <label for="reportType">Report</label>
+        <select id="reportType" name="reportType">
+            <option value="Borrowing" selected="@(Model.ReportType == ReportType.Borrowing)">Borrowing statistics</option>
+            <option value="FineAudit" selected="@(Model.ReportType == ReportType.FineAudit)">Fine revenue audit</option>
+            <option value="InventoryHealth" selected="@(Model.ReportType == ReportType.InventoryHealth)">Inventory health</option>
+        </select>
+    </div>
+    <div class="field">
+        <label for="branchId">Branch</label>
+        <select id="branchId" name="branchId">
+            <option value="">All branches</option>
+            @foreach (var b in Model.Branches)
+            {
+                <option value="@b.Id" selected="@(Model.BranchId == b.Id)">@b.Name</option>
+            }
+        </select>
+    </div>
+    <div class="field">
+        <label for="from">From</label>
+        <input type="date" id="from" name="from" value="@Model.From?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div class="field">
+        <label for="to">To</label>
+        <input type="date" id="to" name="to" value="@Model.To?.ToString("yyyy-MM-dd")" />
+    </div>
+    <button type="submit" class="btn btn-primary">Show report</button>
+</form>
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+@if (Model.ReportType == ReportType.InventoryHealth)
+{
+    <p class="field-note">Inventory health is a snapshot of right now, so the date range doesn't apply to it.</p>
+}
+
+@if (Model.Report is not null)
+{
+    var report = Model.Report;
+    <div class="actions-row">
+        <a class="btn btn-secondary" asp-action="Export" asp-route-format="csv" asp-all-route-data="routeValues">Download CSV</a>
+        <a class="btn btn-secondary" asp-action="Export" asp-route-format="pdf" asp-all-route-data="routeValues">Download PDF</a>
+    </div>
+
+    <section class="dashboard-section" style="margin-top:1.5rem;">
+        <h2>@report.Title</h2>
+        <p class="field-note">@report.Subtitle &middot; generated @report.GeneratedAtUtc.ToString("d MMM yyyy HH:mm") UTC</p>
+        <div class="stat-grid">
+            @foreach (var (label, value) in report.Summary)
+            {
+                <div class="stat-block">
+                    <div class="stat-value stat-value-sm">@value</div>
+                    <div class="stat-label">@label</div>
+                </div>
+            }
+        </div>
+
+        @foreach (var sec in report.Sections)
+        {
+            <h3>@sec.Heading</h3>
+            @if (!sec.Rows.Any())
+            {
+                <p>@(sec.EmptyMessage ?? "No data for this filter.")</p>
+            }
+            else
+            {
+                <div class="table-scroll">
+                    <table>
+                        <thead><tr>@foreach (var c in sec.Columns) { <th>@c</th> }</tr></thead>
+                        <tbody>
+                            @foreach (var row in sec.Rows)
+                            {
+                                <tr>@foreach (var cell in row) { <td>@cell</td> }</tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    </section>
+}

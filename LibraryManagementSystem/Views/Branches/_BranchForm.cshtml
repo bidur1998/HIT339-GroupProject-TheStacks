@@ -1,0 +1,44 @@
+@model Branch
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<input type="hidden" asp-for="Id" />
+<div class="field">
+    <label asp-for="Code"></label>
+    <input asp-for="Code" maxlength="10" style="text-transform:uppercase;" />
+    <span asp-validation-for="Code" class="field-error"></span>
+    <p class="field-note">Short code used in config files, the API and CSV imports (e.g. DAR).</p>
+</div>
+<div class="field">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="Address"></label>
+    <input asp-for="Address" />
+</div>
+<div class="field">
+    <label asp-for="PhoneNumber"></label>
+    <input asp-for="PhoneNumber" type="tel" />
+    <span asp-validation-for="PhoneNumber" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="OpeningTime"></label>
+    <input asp-for="OpeningTime" type="time" asp-format="{0:HH:mm}" />
+</div>
+<div class="field">
+    <label asp-for="ClosingTime"></label>
+    <input asp-for="ClosingTime" type="time" asp-format="{0:HH:mm}" />
+    <span asp-validation-for="ClosingTime" class="field-error"></span>
+</div>
+<div class="form-check">
+    <input asp-for="OpenOnWeekends" />
+    <label asp-for="OpenOnWeekends"></label>
+</div>
+<div class="field">
+    <label asp-for="OperatingStatus"></label>
+    <select asp-for="OperatingStatus" asp-items="Html.GetEnumSelectList<BranchOperatingStatus>()"></select>
+</div>
+<div class="field">
+    <label asp-for="StatusNote"></label>
+    <input asp-for="StatusNote" placeholder="e.g. Closed for air-conditioning repairs until Monday" />
+</div>

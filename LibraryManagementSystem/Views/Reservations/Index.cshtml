@@ -1,0 +1,95 @@
+@model HoldShelfViewModel
+@{
+    ViewData["Title"] = "Holds";
+}
+
+<h1>Holds and waitlists</h1>
+<p class="field-note">Hold shelf for <strong>@(Model.DeskBranch?.Name ?? "your branch")</strong>, plus every waitlist across the library.</p>
+
+<section class="dashboard-section">
+    <h2>Ready on the hold shelf here (@Model.ReadyHere.Count)</h2>
+    @if (!Model.ReadyHere.Any())
+    {
+        <p>Nothing waiting to be collected at this branch.</p>
+    }
+    else
+    {
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>Item</th><th>Code</th><th>For</th><th>Card</th><th>Collect by</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model.ReadyHere)
+                    {
+                        <tr>
+                            <td>@r.Item.Name</td>
+                            <td>@r.Item.LibraryCode</td>
+                            <td>@r.Borrower.FullName</td>
+                            <td>@r.Borrower.CardNumber</td>
+                            <td>@r.HoldExpiresAt?.ToString("ddd d MMM HH:mm")</td>
+                            <td><partial name="_CancelHold" model="r.Id" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <p class="field-note">To hand an item over, use Borrow as normal - the hold is marked fulfilled automatically.</p>
+    }
+</section>
+
+<section class="dashboard-section">
+    <h2>Being transferred for pickup (@Model.AwaitingTransfer.Count)</h2>
+    @if (!Model.AwaitingTransfer.Any())
+    {
+        <p>No reserved items in transit.</p>
+    }
+    else
+    {
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>Item</th><th>For</th><th>Now at</th><th>Pick up at</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model.AwaitingTransfer)
+                    {
+                        <tr>
+                            <td>@r.Item.Name</td>
+                            <td>@r.Borrower.FullName</td>
+                            <td>@(r.Item.CurrentBranch?.Name ?? "—")</td>
+                            <td>@r.PickupBranch.Name</td>
+                            <td><partial name="_CancelHold" model="r.Id" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+<section class="dashboard-section">
+    <h2>Waitlists (@Model.Waiting.Count)</h2>
+    @if (!Model.Waiting.Any())
+    {
+        <p>Nobody is waiting for anything right now.</p>
+    }
+    else
+    {
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>Item</th><th>Item status</th><th>Patron</th><th>Placed</th><th>Hold status</th><th>Pick up at</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model.Waiting)
+                    {
+                        <tr>
+                            <td>@r.Item.Name</td>
+                            <td><span class="badge badge-@r.Item.Status.ToString().ToLower()">@r.Item.Status</span></td>
+                            <td>@r.Borrower.FullName</td>
+                            <td>@r.CreatedAt.ToString("d MMM HH:mm")</td>
+                            <td>@r.Status</td>
+                            <td>@r.PickupBranch.Name</td>
+                            <td><partial name="_CancelHold" model="r.Id" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

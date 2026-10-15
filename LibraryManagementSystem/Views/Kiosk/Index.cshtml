@@ -1,0 +1,35 @@
+@model KioskWelcomeViewModel
+@{
+    Layout = "_KioskLayout";
+    ViewData["Title"] = "Welcome";
+}
+
+<h1>Welcome to The Stacks</h1>
+<p class="lead">
+    Scan the barcode on your library card to borrow items or check your account.
+    @if (Model.Branch is not null)
+    {
+        <span class="kiosk-open-badge @(Model.IsOpenNow ? "open" : "closed")">
+            @(Model.IsOpenNow ? "Branch open" : "Branch closed") &middot; @Model.Branch.HoursSummary
+        </span>
+    }
+</p>
+
+<form asp-action="Card" method="post" autocomplete="off">
+    <label for="cardNumber" class="visually-hidden">Library card number</label>
+    <div class="kiosk-scan-row">
+        <input id="cardNumber" name="cardNumber" class="kiosk-input" inputmode="text" maxlength="20"
+               placeholder="Scan your card" autofocus />
+        <button type="submit" class="kiosk-btn">Next &rarr;</button>
+    </div>
+    <p class="lead" style="font-size:1rem;">No scanner? Type your card number (it starts with C) using the keys below.</p>
+    <div class="keypad" data-target="cardNumber" aria-label="Card number pad">
+        <button type="button" data-key="C">C</button>
+        @for (int n = 1; n <= 9; n++)
+        {
+            <button type="button" data-key="@n">@n</button>
+        }
+        <button type="button" class="key-action" data-key="back">&#9003;</button>
+        <button type="button" data-key="0">0</button>
+    </div>
+</form>

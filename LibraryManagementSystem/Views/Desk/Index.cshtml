@@ -1,0 +1,23 @@
+@model List<Branch>
+@{
+    ViewData["Title"] = "Choose desk branch";
+    string current = ViewBag.Current as string ?? "";
+}
+<h1>Which branch desk are you at?</h1>
+<p class="field-note">
+    Borrowing, returns, the hold shelf and transfers all work from your desk branch. Each installation starts at its configured
+    branch (BranchSettings:DefaultBranchCode); switching here only lasts for your current session.
+</p>
+<form asp-action="Index" method="post">
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+    <div class="field">
+        <label for="branchCode">Desk branch</label>
+        <select id="branchCode" name="branchCode">
+            @foreach (var b in Model)
+            {
+                <option value="@b.Code" selected="@(b.Code == current)">@b.Name (@b.Code)</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Switch desk</button>
+</form>

@@ -1,0 +1,20 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<LibraryManagementSystem.Models.ApplicationUser> SignInManager
+@inject UserManager<LibraryManagementSystem.Models.ApplicationUser> UserManager
+
+<ul class="nav-list nav-list--account">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var displayName = (await UserManager.GetUserAsync(User))?.DisplayName ?? User.Identity!.Name;
+        <li class="nav-account-name">Signed in as @displayName</li>
+        <li>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="inline-form">
+                <button type="submit" class="link-button">Log out</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li><a asp-controller="Account" asp-action="Login">Staff log in</a></li>
+    }
+</ul>

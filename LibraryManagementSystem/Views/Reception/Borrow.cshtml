@@ -1,0 +1,39 @@
+@model BorrowViewModel
+@{
+    ViewData["Title"] = "Borrow an item";
+    var borrowers = ViewBag.Borrowers as List<Borrower> ?? new List<Borrower>();
+    var lastCode = ViewBag.LastLibraryCode as string;
+}
+
+<h1>Borrow an item</h1>
+<p class="field-note">Enter the item's library code and choose who is borrowing it. Only items shelved at your desk branch (@ViewData["DeskBranchName"]) can be lent here.</p>
+
+<form asp-action="Borrow" method="post">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="field">
+        <label asp-for="LibraryCode">Library code</label>
+        <input asp-for="LibraryCode" value="@(Model.LibraryCode ?? lastCode)" autofocus />
+        <span asp-validation-for="LibraryCode" class="field-error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="BorrowerId">Borrower</label>
+        <select asp-for="BorrowerId">
+            <option value="">-- Select a borrower --</option>
+            @foreach (var b in borrowers)
+            {
+                <option value="@b.Id">@b.FullName (@(b.CardNumber ?? b.Email))@(b.OutstandingFines > 0 ? $" - owes ${b.OutstandingFines:0.00}" : "")</option>
+            }
+        </select>
+        <span asp-validation-for="BorrowerId" class="field-error"></span>
+        <p class="field-note">Borrower not listed yet? <a asp-controller="Borrowers" asp-action="Create">Add them first</a>.</p>
+    </div>
+
+    <div class="field">
+        <label asp-for="LoanPeriodDays">Loan period (days)</label>
+        <input asp-for="LoanPeriodDays" type="number" min="1" max="90" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Borrow item</button>
+</form>

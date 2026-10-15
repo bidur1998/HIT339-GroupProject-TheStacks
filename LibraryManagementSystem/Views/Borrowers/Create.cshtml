@@ -1,0 +1,14 @@
+@model BorrowerFormViewModel
+@{
+    ViewData["Title"] = "Add borrower";
+}
+
+<h1>Add a new borrower</h1>
+<p class="field-note">A library card number is generated automatically when you save.</p>
+<form asp-action="Create" method="post">
+    <partial name="_BorrowerForm" />
+    <div class="actions-row">
+        <button type="submit" class="btn btn-primary">Add borrower</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+    </div>
+</form>

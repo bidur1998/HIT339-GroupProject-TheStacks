@@ -1,0 +1,29 @@
+@model ReturnResultViewModel
+@{
+    ViewData["Title"] = "Item returned";
+}
+
+<h1>"@Model.ItemName" returned</h1>
+<p>Returned by @Model.BorrowerName.</p>
+
+@if (Model.FineAmount > 0)
+{
+    <div class="alert alert-error">
+        This item was <strong>@Model.DaysOverdue day@(Model.DaysOverdue == 1 ? "" : "s")</strong> overdue.
+        A fine of <strong>$@Model.FineAmount.ToString("0.00")</strong> has been added to the borrower's account.
+    </div>
+}
+else
+{
+    <div class="alert">Returned on time &mdash; no fine applied.</div>
+}
+
+@if (ViewBag.NextStep is string nextStep)
+{
+    <div class="alert"><strong>Next step:</strong> @nextStep</div>
+}
+
+<div class="actions-row">
+    <a class="btn btn-primary" asp-action="Return">Return another item</a>
+    <a class="btn btn-secondary" asp-action="Borrow">Borrow an item</a>
+</div>

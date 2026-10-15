@@ -1,0 +1,12 @@
+@model Branch
+@{
+    ViewData["Title"] = "Add branch";
+}
+<h1>Add a branch</h1>
+<form asp-action="Create" method="post">
+    <partial name="_BranchForm" />
+    <div class="actions-row">
+        <button type="submit" class="btn btn-primary">Add branch</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+    </div>
+</form>

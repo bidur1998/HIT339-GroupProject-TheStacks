@@ -1,0 +1,22 @@
+@{
+    int code = ViewBag.StatusCodeValue ?? 0;
+    string heading = code switch
+    {
+        404 => "Page not found",
+        403 => "Access denied",
+        _ => "Something went wrong"
+    };
+    string message = code switch
+    {
+        404 => "We couldn't find the page you were looking for. It may have been moved, or the link may be out of date.",
+        403 => "You don't have permission to view that page with the account you're signed in as.",
+        _ => $"The server responded with status code {code}."
+    };
+    ViewData["Title"] = heading;
+}
+
+<h1>@heading</h1>
+<p>@message</p>
+<div class="actions-row">
+    <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Back to home</a>
+</div>

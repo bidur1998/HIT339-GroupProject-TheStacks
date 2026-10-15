@@ -1,0 +1,85 @@
+@model List<Item>
+@{
+    ViewData["Title"] = "Manage items";
+    string filter = ViewBag.TypeFilter ?? "All";
+    int? branchFilter = ViewBag.BranchId as int?;
+    var branches = ViewBag.Branches as List<Branch> ?? new List<Branch>();
+}
+
+<h1>Manage items</h1>
+<p class="field-note">Admin catalogue &mdash; add, edit and remove books, toys and music.</p>
+
+<div class="filter-bar">
+    <form method="get" class="field" style="display:flex; gap:0.5rem; align-items:flex-end;">
+        <div>
+            <label for="typeFilter">Filter by type</label>
+            <select id="typeFilter" name="typeFilter" onchange="this.form.submit()">
+                <option value="All" selected="@(filter == "All")">All types</option>
+                <option value="Book" selected="@(filter == "Book")">Books</option>
+                <option value="Toy" selected="@(filter == "Toy")">Toys</option>
+                <option value="Music" selected="@(filter == "Music")">Music</option>
+            </select>
+        </div>
+        <div>
+            <label for="branchId">Located at</label>
+            <select id="branchId" name="branchId" onchange="this.form.submit()">
+                <option value="" selected="@(branchFilter is null)">All branches</option>
+                @foreach (var b in branches)
+                {
+                    <option value="@b.Id" selected="@(branchFilter == b.Id)">@b.Name</option>
+                }
+            </select>
+        </div>
+    </form>
+    <a class="btn btn-primary" asp-action="Create">+ Add new item</a>
+    <a class="btn btn-secondary" asp-controller="Import" asp-action="Index">Bulk import</a>
+</div>
+
+@if (!Model.Any())
+{
+    <p>No items match this filter yet.</p>
+}
+else
+{
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Library code</th>
+                    <th>Details</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.ItemType</td>
+                        <td>@item.LibraryCode</td>
+                        <td>@item.ExtraInfoSummary</td>
+                        <td>
+                            @(item.CurrentBranch?.Name ?? "—")
+                            @if (item.HomeBranchId.HasValue && item.CurrentBranchId != item.HomeBranchId)
+                            {
+                                <span class="field-note">(home: @item.HomeBranch?.Name)</span>
+                            }
+                        </td>
+                        <td>
+                            <span class="badge badge-@item.Status.ToString().ToLower()">@item.Status</span>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-secondary" asp-action="Details" asp-route-id="@item.Id">View</a>
+                            <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

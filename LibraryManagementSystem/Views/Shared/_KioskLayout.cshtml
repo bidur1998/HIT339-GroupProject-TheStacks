@@ -1,0 +1,50 @@
+@{
+    // The kiosk has its own stripped-down layout: no site navigation, no
+    // staff login link, big touch targets, and an idle timer (kiosk.js)
+    // that ends the patron's session if the screen is left alone.
+    bool signedIn = ViewData["KioskSignedIn"] as bool? ?? false;
+    int idleSeconds = ViewData["KioskIdleSeconds"] as int? ?? 120;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>@ViewData["Title"] - The Stacks kiosk</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/kiosk.css" asp-append-version="true" />
+</head>
+<body class="kiosk" data-idle-seconds="@idleSeconds" data-signed-in="@(signedIn ? "true" : "false")"
+      data-timeout-url="@Url.Action("Timeout", "Kiosk")">
+    <header class="kiosk-header">
+        <div class="kiosk-brand">The Stacks <span>&middot; @ViewData["KioskBranchName"]</span></div>
+        @if (signedIn)
+        {
+            <form asp-controller="Kiosk" asp-action="Finish" method="post">
+                <button type="submit" class="kiosk-btn kiosk-btn-finish">Finish &amp; sign out</button>
+            </form>
+        }
+    </header>
+
+    <main class="kiosk-main">
+        @if (TempData["KioskSuccess"] is string ok)
+        {
+            <div class="kiosk-alert kiosk-alert-ok" role="status">@ok</div>
+        }
+        @if (TempData["KioskError"] is string err)
+        {
+            <div class="kiosk-alert kiosk-alert-error" role="alert">@err</div>
+        }
+        @RenderBody()
+    </main>
+
+    @if (signedIn)
+    {
+        <div class="kiosk-idle-warning" id="idle-warning" hidden>
+            Still there? This session will end in <span id="idle-count">15</span> seconds. Tap anywhere to stay signed in.
+        </div>
+    }
+
+    <script src="~/js/kiosk.js" asp-append-version="true"></script>
+</body>
+</html>

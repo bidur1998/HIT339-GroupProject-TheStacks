@@ -1,0 +1,10 @@
+ItemType,Name,Description,LibraryCode,Author,Genre,Artist,Year,ToyType,RecommendedAge,BranchCode
+Book,The Very Hungry Caterpillar,A caterpillar eats its way through the week.,BK-1001,Eric Carle,Children's,,,,,DAR
+Book,Where the Wild Things Are,,BK-1002,Maurice Sendak,Children's,,,,,CAS
+Music,Blue,,MU-1001,,,Joni Mitchell,1971,,,CAS
+Toy,Magnetic Tiles,"32 pieces, mixed shapes",TY-1001,,,,,Construction,3,PAL
+Book,Row with no author (should fail),,BK-1003,,,,,,,DAR
+Video,Unsupported type (should fail),,VD-1001,,,,,,,DAR
+Book,Duplicate code (should fail),,BK-0001,Someone,,,,,,DAR
+Music,Bad year (should fail),,MU-1002,,,Some Band,1850,,,PAL
+Toy,Unknown branch (should fail),,TY-1002,,,,,Puzzle,5,XYZ

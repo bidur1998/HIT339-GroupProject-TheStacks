@@ -1,0 +1,43 @@
+@model PlaceHoldViewModel
+@{
+    ViewData["Title"] = "Place a hold";
+    var branches = ViewBag.Branches as List<Branch> ?? new List<Branch>();
+}
+
+<h1>Place a hold</h1>
+<p>
+    <strong>@Model.ItemName</strong> is currently <strong>@Model.ItemStatus.ToLower()</strong>.
+    @(Model.QueueLength == 0 ? "Nobody else is waiting - you'd be first in line." : $"{Model.QueueLength} {(Model.QueueLength == 1 ? "person is" : "people are")} already waiting.")
+</p>
+<p class="field-note">We'll notify you by your chosen email/SMS as soon as it's ready to collect. Holds are kept for a few days once ready.</p>
+
+<form asp-action="Place" method="post" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="ItemId" />
+
+    <div class="field">
+        <label asp-for="CardNumber"></label>
+        <input asp-for="CardNumber" placeholder="e.g. C1000001" />
+        <span asp-validation-for="CardNumber" class="field-error"></span>
+    </div>
+    <div class="field">
+        <label asp-for="Pin">PIN</label>
+        <input asp-for="Pin" inputmode="numeric" autocomplete="off" />
+        <span asp-validation-for="Pin" class="field-error"></span>
+        <p class="field-note">The same PIN you use at the library kiosk. Ask at the desk if you don't have one.</p>
+    </div>
+    <div class="field">
+        <label asp-for="PickupBranchId"></label>
+        <select asp-for="PickupBranchId">
+            @foreach (var b in branches)
+            {
+                <option value="@b.Id">@b.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="actions-row">
+        <button type="submit" class="btn btn-primary">Place hold</button>
+        <a class="btn btn-secondary" asp-controller="Search" asp-action="Index">Back to search</a>
+    </div>
+</form>

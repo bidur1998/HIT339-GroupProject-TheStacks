@@ -1,0 +1,38 @@
+@model List<Branch>
+@{
+    ViewData["Title"] = "Branches";
+    var counts = ViewBag.ItemCounts as Dictionary<int, int> ?? new();
+    var localNow = (DateTime)ViewBag.LocalNow;
+}
+
+<h1>Branches</h1>
+<p class="field-note">Library locations, their opening hours and operating status (also published through the public API). Local time now: @localNow.ToString("ddd HH:mm").</p>
+<div class="actions-row" style="margin-top:0; margin-bottom:1rem;">
+    <a class="btn btn-primary" asp-action="Create">+ Add branch</a>
+</div>
+
+<div class="table-scroll">
+    <table>
+        <thead><tr><th>Code</th><th>Name</th><th>Hours</th><th>Status</th><th>Items held</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var b in Model)
+            {
+                bool open = b.IsOpenAt(localNow);
+                <tr>
+                    <td>@b.Code</td>
+                    <td>@b.Name<br /><span class="field-note">@b.Address</span></td>
+                    <td>@b.HoursSummary</td>
+                    <td>
+                        <span class="badge @(open ? "badge-available" : "badge-damaged")">@(open ? "Open now" : "Closed now")</span>
+                        @if (b.OperatingStatus != BranchOperatingStatus.Normal)
+                        {
+                            <div class="field-note">Temporarily closed: @b.StatusNote</div>
+                        }
+                    </td>
+                    <td>@(counts.TryGetValue(b.Id, out var c) ? c : 0)</td>
+                    <td><a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@b.Id">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

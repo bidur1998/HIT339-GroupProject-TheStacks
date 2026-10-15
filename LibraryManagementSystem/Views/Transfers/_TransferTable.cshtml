@@ -1,0 +1,50 @@
+@model List<BranchTransfer>
+@if (!Model.Any())
+{
+    <p>None.</p>
+}
+else
+{
+    <div class="table-scroll">
+        <table>
+            <thead><tr><th>Item</th><th>From</th><th>To</th><th>Status</th><th>Reason</th><th>History</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr>
+                        <td>@t.Item.Name<br /><span class="field-note">@t.Item.LibraryCode</span></td>
+                        <td>@t.FromBranch.Name</td>
+                        <td>@t.ToBranch.Name</td>
+                        <td><span class="badge @(t.Status == TransferStatus.Received ? "badge-available" : t.Status == TransferStatus.Cancelled ? "badge-damaged" : "badge-borrowed")">@t.Status</span></td>
+                        <td>@(t.Reason ?? "—")</td>
+                        <td class="field-note">
+                            Requested @t.RequestedAt.ToString("d MMM HH:mm") by @t.RequestedBy
+                            @if (t.DispatchedAt.HasValue) { <br />@($"Dispatched {t.DispatchedAt:d MMM HH:mm} by {t.DispatchedBy}") }
+                            @if (t.ReceivedAt.HasValue) { <br />@($"Received {t.ReceivedAt:d MMM HH:mm} by {t.ReceivedBy}") }
+                        </td>
+                        <td style="white-space:nowrap;">
+                            @if (t.Status == TransferStatus.Requested)
+                            {
+                                <form asp-action="Dispatch" asp-route-id="@t.Id" method="post" class="inline-form">
+                                    <button type="submit" class="btn btn-sm btn-primary">Dispatch</button>
+                                </form>
+                            }
+                            @if (t.Status == TransferStatus.InTransit)
+                            {
+                                <form asp-action="Receive" asp-route-id="@t.Id" method="post" class="inline-form">
+                                    <button type="submit" class="btn btn-sm btn-primary">Receive</button>
+                                </form>
+                            }
+                            @if (t.IsOpen && t.ReservationId is null)
+                            {
+                                <form asp-action="Cancel" asp-route-id="@t.Id" method="post" class="inline-form">
+                                    <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

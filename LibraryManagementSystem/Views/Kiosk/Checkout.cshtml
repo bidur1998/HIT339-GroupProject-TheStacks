@@ -1,0 +1,37 @@
+@model KioskCheckoutViewModel
+@{
+    Layout = "_KioskLayout";
+    ViewData["Title"] = "Check out";
+}
+
+<h1>Check out</h1>
+<p class="lead">Scan the barcode inside the cover or on the case. Items must be from the @Model.BranchName shelves.</p>
+
+<form asp-action="Checkout" method="post" autocomplete="off">
+    <div class="kiosk-scan-row">
+        <input id="libraryCode" name="libraryCode" class="kiosk-input" maxlength="20" placeholder="Scan item" autofocus />
+        <button type="submit" class="kiosk-btn">Check out</button>
+    </div>
+</form>
+
+@if (Model.Receipt.Any())
+{
+    <div class="kiosk-panel">
+        <h2>Borrowed this visit</h2>
+        <table>
+            <thead><tr><th>Item</th><th>Code</th><th>Due back</th></tr></thead>
+            <tbody>
+                @foreach (var line in Model.Receipt)
+                {
+                    <tr><td>@line.ItemName</td><td>@line.LibraryCode</td><td>@line.DueDate.ToString("ddd d MMM yyyy")</td></tr>
+                }
+            </tbody>
+        </table>
+        <p style="margin-bottom:0;">A confirmation has also been sent to you by your chosen email/SMS.</p>
+    </div>
+}
+
+<div class="actions-row">
+    <a class="kiosk-btn kiosk-btn-secondary" asp-action="Menu">&larr; Back to menu</a>
+    <a class="kiosk-btn kiosk-btn-secondary" asp-action="Account">My account</a>
+</div>

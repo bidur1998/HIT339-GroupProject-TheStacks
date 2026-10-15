@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<section class="hero">
+    <h1>Find anything in the stacks.</h1>
+    <p>
+        Search the full catalogue of books, toys and music across all our branches from your phone or
+        computer &mdash; no account needed. Borrowed something popular? Place a hold and we'll message you
+        when it's ready. Staff can sign in above.
+    </p>
+    <form asp-controller="Search" asp-action="Index" method="get" role="search">
+        <input type="search" name="query" placeholder="Search by title, code, author or artist&hellip;" aria-label="Search the catalogue" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</section>
+
+<h2>Other ways in</h2>
+<div class="role-links">
+    <a class="role-link" asp-controller="Kiosk" asp-action="Index">
+        <h3>Self-service kiosk</h3>
+        <p>The touch-screen view used on in-library kiosks: scan your card, check out items, see your account.</p>
+    </a>
+    <a class="role-link" asp-controller="Home" asp-action="Developers">
+        <h3>Developer API</h3>
+        <p>Read-only REST API for catalogue items, categories and branch opening status.</p>
+    </a>
+</div>
+
+<h2 style="margin-top:2rem;">Staff areas</h2>
+<div class="role-links">
+    <a class="role-link" asp-controller="Items" asp-action="Index">
+        <h3>Admin</h3>
+        <p>Manage the catalogue and branches, import items in bulk, and coordinate transfers.</p>
+    </a>
+    <a class="role-link" asp-controller="Reception" asp-action="Borrow">
+        <h3>Reception</h3>
+        <p>Borrow and return items, manage borrowers and fines, the hold shelf and transfers.</p>
+    </a>
+    <a class="role-link" asp-controller="Manager" asp-action="Dashboard">
+        <h3>Manager</h3>
+        <p>Statistics, plus borrowing, fine revenue and inventory health reports with CSV/PDF export.</p>
+    </a>
+</div>

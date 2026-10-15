@@ -1,0 +1,13 @@
+@model BorrowerFormViewModel
+@{
+    ViewData["Title"] = "Edit borrower";
+}
+
+<h1>Edit "@Model.FullName"</h1>
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <partial name="_BorrowerForm" />
+    <div class="actions-row">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+    </div>
+</form>

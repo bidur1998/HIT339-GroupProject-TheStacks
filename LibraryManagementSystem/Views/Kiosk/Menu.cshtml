@@ -1,0 +1,33 @@
+@model PatronAccountSummary
+@{
+    Layout = "_KioskLayout";
+    ViewData["Title"] = "Menu";
+    var firstName = Model.Borrower.FullName.Split(' ')[0];
+    int ready = Model.Reservations.Count(r => r.Status == ReservationStatus.ReadyForPickup);
+}
+
+<h1>Hi @firstName</h1>
+<div class="kiosk-figures">
+    <div class="kiosk-figure"><strong>@Model.CurrentLoans.Count</strong> items on loan</div>
+    <div class="kiosk-figure"><strong>@Model.CurrentLoans.Count(l => l.DaysOverdue > 0)</strong> overdue</div>
+    <div class="kiosk-figure"><strong>$@((Model.OutstandingFines + Model.AccruingFines).ToString("0.00"))</strong> fines</div>
+    <div class="kiosk-figure"><strong>@ready</strong> holds ready</div>
+</div>
+
+@if (!Model.CanBorrow)
+{
+    <div class="kiosk-alert kiosk-alert-error">
+        You have $@Model.OutstandingFines.ToString("0.00") in unpaid fines. Please pay at the desk before borrowing more items.
+    </div>
+}
+
+<div class="kiosk-tiles">
+    <a class="kiosk-tile" asp-action="Checkout">
+        <h2>Check out items</h2>
+        <p>Scan the barcode on each item you'd like to borrow.</p>
+    </a>
+    <a class="kiosk-tile" asp-action="Account">
+        <h2>My account</h2>
+        <p>Due dates, fines and reservations.</p>
+    </a>
+</div>

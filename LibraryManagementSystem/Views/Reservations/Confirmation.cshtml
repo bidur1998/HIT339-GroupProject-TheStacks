@@ -1,0 +1,14 @@
+@model HoldConfirmationViewModel
+@{
+    ViewData["Title"] = "Hold placed";
+}
+
+<h1>You're on the list</h1>
+<div class="alert">
+    Thanks @Model.BorrowerName. You're <strong>number @Model.QueuePosition</strong> in the queue for
+    <strong>@Model.ItemName</strong>. We'll let you know when it's ready to collect at <strong>@Model.PickupBranch</strong>.
+</div>
+<p>You can check or cancel your holds at any time from the self-service kiosk (My account).</p>
+<div class="actions-row">
+    <a class="btn btn-primary" asp-controller="Search" asp-action="Index">Back to search</a>
+</div>

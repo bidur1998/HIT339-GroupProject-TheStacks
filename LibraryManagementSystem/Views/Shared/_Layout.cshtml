@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - The Stacks</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+        <div class="header-inner">
+            <a class="wordmark" asp-controller="Home" asp-action="Index">
+                The Stacks <small>Library Management System</small>
+            </a>
+            <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">&#9776;</label>
+        </div>
+        <div class="nav-row">
+            <partial name="_LoginPartial" />
+            <ul class="nav-list">
+                <li><a asp-controller="Search" asp-action="Index">Search the catalogue</a></li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li><a asp-controller="Items" asp-action="Index">Manage items</a></li>
+                    <li><a asp-controller="Import" asp-action="Index">Import</a></li>
+                    <li><a asp-controller="Branches" asp-action="Index">Branches</a></li>
+                    <li><a asp-controller="Transfers" asp-action="Index">Transfers</a></li>
+                }
+                @if (User.IsInRole("Reception"))
+                {
+                    <li><a asp-controller="Reception" asp-action="Borrow">Borrow</a></li>
+                    <li><a asp-controller="Reception" asp-action="Return">Return</a></li>
+                    <li><a asp-controller="Borrowers" asp-action="Index">Borrowers</a></li>
+                    <li><a asp-controller="Reservations" asp-action="Index">Holds</a></li>
+                    <li><a asp-controller="Transfers" asp-action="Index">Transfers</a></li>
+                }
+                @if (User.IsInRole("Manager"))
+                {
+                    <li><a asp-controller="Manager" asp-action="Dashboard">Dashboard</a></li>
+                    <li><a asp-controller="Manager" asp-action="Reports">Reports</a></li>
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("Reception") || User.IsInRole("Manager"))
+                {
+                    <li><a asp-controller="Notifications" asp-action="Index">Notifications</a></li>
+                }
+            </ul>
+        </div>
+        @if (ViewData["DeskBranchName"] is string deskName)
+        {
+            <div class="desk-bar">
+                <span>Desk branch: <strong>@deskName</strong></span>
+                <a asp-controller="Desk" asp-action="Index" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">change</a>
+            </div>
+        }
+    </header>
+
+    <main class="content">
+        @if (TempData["StatusMessage"] is string status)
+        {
+            <div class="alert">@status</div>
+        }
+        @if (TempData["ErrorMessage"] is string error)
+        {
+            <div class="alert alert-error">@error</div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        The Stacks &mdash; a multi-branch Library Management System (Distributed Development group project).
+        <a asp-controller="Kiosk" asp-action="Index">Self-service kiosk</a> &middot;
+        <a asp-controller="Home" asp-action="Developers">Developer API</a>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

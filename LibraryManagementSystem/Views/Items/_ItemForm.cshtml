@@ -1,0 +1,111 @@
+@model ItemFormViewModel
+@{
+    bool isEdit = Model.Id != 0;
+    var branches = ViewBag.Branches as List<Branch> ?? new List<Branch>();
+}
+
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<input type="hidden" asp-for="Id" />
+
+<div class="field">
+    <label asp-for="ItemType">Item type</label>
+    @if (isEdit)
+    {
+        <input value="@Model.ItemType" disabled />
+        <input type="hidden" asp-for="ItemType" />
+        <p class="field-note">The type of an item can't be changed after it's created.</p>
+    }
+    else
+    {
+        <select asp-for="ItemType" id="ItemType">
+            <option value="Book">Book</option>
+            <option value="Toy">Toy</option>
+            <option value="Music">Music</option>
+        </select>
+    }
+</div>
+
+<div class="field">
+    <label asp-for="Name">Name / title</label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name" class="field-error"></span>
+</div>
+
+<div class="field">
+    <label asp-for="LibraryCode">Library code</label>
+    <input asp-for="LibraryCode" placeholder="e.g. BK-0004" />
+    <span asp-validation-for="LibraryCode" class="field-error"></span>
+</div>
+
+<div class="field">
+    <label asp-for="Description">Description</label>
+    <textarea asp-for="Description" rows="3"></textarea>
+</div>
+
+<div class="field">
+    <label asp-for="HomeBranchId">Home branch (owner)</label>
+    <select asp-for="HomeBranchId">
+        <option value="">-- Choose a branch --</option>
+        @foreach (var b in branches)
+        {
+            <option value="@b.Id">@b.Name (@b.Code)</option>
+        }
+    </select>
+    <span asp-validation-for="HomeBranchId" class="field-error"></span>
+    @if (isEdit)
+    {
+        <p class="field-note">Currently located at: <strong>@(Model.CurrentBranchName ?? "not set")</strong>. An item's location only changes when it's returned at another branch or a transfer is received.</p>
+    }
+    else
+    {
+        <p class="field-note">New items start on the shelf at their home branch.</p>
+    }
+</div>
+
+<div class="field">
+    <label asp-for="Status">Status</label>
+    <select asp-for="Status" asp-items="Html.GetEnumSelectList<ItemStatus>()"></select>
+    <span asp-validation-for="Status" class="field-error"></span>
+    <p class="field-note">Changing Damaged to Available tells the next patron on the waitlist (if any) that it's ready.</p>
+</div>
+
+<div id="fields-book">
+    <div class="field">
+        <label asp-for="Author">Author</label>
+        <input asp-for="Author" />
+        <span asp-validation-for="Author" class="field-error"></span>
+    </div>
+    <div class="field">
+        <label asp-for="Genre">Genre</label>
+        <input asp-for="Genre" />
+    </div>
+</div>
+
+<div id="fields-toy">
+    <div class="field">
+        <label asp-for="ToyType">Toy type</label>
+        <input asp-for="ToyType" placeholder="e.g. Construction, Puzzle, Board game" />
+        <span asp-validation-for="ToyType" class="field-error"></span>
+    </div>
+    <div class="field">
+        <label asp-for="RecommendedAge">Recommended age</label>
+        <input asp-for="RecommendedAge" type="number" min="0" max="18" />
+    </div>
+</div>
+
+<div id="fields-music">
+    <div class="field">
+        <label asp-for="Artist">Artist</label>
+        <input asp-for="Artist" />
+        <span asp-validation-for="Artist" class="field-error"></span>
+    </div>
+    <div class="field">
+        <label asp-for="Year">Year</label>
+        <input asp-for="Year" type="number" min="1900" max="2100" />
+    </div>
+</div>
+
+<div class="actions-row">
+    <button type="submit" class="btn btn-primary">@(isEdit ? "Save changes" : "Add item")</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</div>

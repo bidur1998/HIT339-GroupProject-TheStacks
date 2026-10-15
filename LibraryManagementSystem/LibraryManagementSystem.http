@@ -1,0 +1,49 @@
+# Public REST API test requests (Group Project).
+# Open this file in Visual Studio 2022/2026 or VS Code (REST Client extension)
+# while the app is running, and click "Send Request" above each request.
+
+@host = https://localhost:7050
+@key = stacks-demo-key-2026
+
+### 1. Service status
+GET {{host}}/api/v1/status
+X-Api-Key: {{key}}
+
+### 2. Search the catalogue
+GET {{host}}/api/v1/catalogue?search=hobbit
+X-Api-Key: {{key}}
+
+### 3. Available items at one branch, page 1
+GET {{host}}/api/v1/catalogue?branch=CAS&availableOnly=true&page=1&pageSize=10
+X-Api-Key: {{key}}
+
+### 4. One item by library code
+GET {{host}}/api/v1/catalogue/BK-0001
+X-Api-Key: {{key}}
+
+### 5. Categories
+GET {{host}}/api/v1/categories
+X-Api-Key: {{key}}
+
+### 6. All branches and whether they're open now
+GET {{host}}/api/v1/branches
+X-Api-Key: {{key}}
+
+### 7. One branch's operating status
+GET {{host}}/api/v1/branches/PAL/status
+X-Api-Key: {{key}}
+
+### 8. EXPECT 401 - no API key
+GET {{host}}/api/v1/status
+
+### 9. EXPECT 400 - invalid type
+GET {{host}}/api/v1/catalogue?type=Video
+X-Api-Key: {{key}}
+
+### 10. EXPECT 404 - unknown item
+GET {{host}}/api/v1/catalogue/NOPE-0000
+X-Api-Key: {{key}}
+
+### 11. EXPECT 405 - the API is read-only
+DELETE {{host}}/api/v1/catalogue/BK-0001
+X-Api-Key: {{key}}

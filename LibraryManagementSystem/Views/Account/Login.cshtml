@@ -1,0 +1,31 @@
+@model LibraryManagementSystem.Controllers.LoginViewModel
+@{
+    ViewData["Title"] = "Staff log in";
+}
+
+<h1>Staff log in</h1>
+<p class="field-note">This log in is for library staff only. Members of the public don't need an account &mdash; use "Search the catalogue" above.</p>
+
+<form asp-controller="Account" asp-action="Login" method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="field">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" autocomplete="username" />
+        <span asp-validation-for="Email" class="field-error"></span>
+    </div>
+    <div class="field">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" type="password" autocomplete="current-password" />
+        <span asp-validation-for="Password" class="field-error"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+</form>
+
+<p class="field-note" style="margin-top:2rem;">
+    Demo accounts &mdash; Admin: admin@library.local / Admin123!
+    &nbsp;|&nbsp; Reception: reception@library.local / Reception123!
+    &nbsp;|&nbsp; Manager: manager@library.local / Manager123!
+</p>

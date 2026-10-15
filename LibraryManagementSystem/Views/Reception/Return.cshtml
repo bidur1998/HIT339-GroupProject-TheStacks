@@ -1,0 +1,28 @@
+@model ReturnViewModel
+@{
+    ViewData["Title"] = "Return an item";
+}
+
+<h1>Return an item</h1>
+<p class="field-note">Enter the library code and record the item's condition. A fine is calculated automatically if it's late. The item will be recorded as now being at @ViewData["DeskBranchName"], and if someone has reserved it they'll be notified.</p>
+
+<form asp-action="Return" method="post">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="field">
+        <label asp-for="LibraryCode">Library code</label>
+        <input asp-for="LibraryCode" autofocus />
+        <span asp-validation-for="LibraryCode" class="field-error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="ConditionOnReturn">Condition on return</label>
+        <select asp-for="ConditionOnReturn">
+            <option value="Available">Good condition</option>
+            <option value="Damaged">Damaged</option>
+            <option value="Destroyed">Destroyed / unusable</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Return item</button>
+</form>

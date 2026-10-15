@@ -1,0 +1,50 @@
+@model Item
+@{
+    ViewData["Title"] = Model.Name;
+    var queue = ViewBag.Queue as List<Reservation> ?? new List<Reservation>();
+}
+
+<h1>@Model.Name</h1>
+<p><span class="badge badge-@Model.Status.ToString().ToLower()">@Model.Status</span></p>
+
+<table>
+    <tbody>
+        <tr><th>Type</th><td>@Model.ItemType</td></tr>
+        <tr><th>Library code</th><td>@Model.LibraryCode</td></tr>
+        <tr><th>Details</th><td>@Model.ExtraInfoSummary</td></tr>
+        <tr><th>Description</th><td>@(Model.Description ?? "—")</td></tr>
+        <tr><th>Home branch</th><td>@(Model.HomeBranch?.Name ?? "—")</td></tr>
+        <tr><th>Current location</th><td>@(Model.CurrentBranch?.Name ?? "—")</td></tr>
+        <tr><th>Date added</th><td>@Model.DateAdded.ToString("d MMM yyyy")</td></tr>
+    </tbody>
+</table>
+
+<h2 style="margin-top:2rem;">Waitlist (@queue.Count)</h2>
+@if (!queue.Any())
+{
+    <p>Nobody is waiting for this item.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>#</th><th>Patron</th><th>Placed</th><th>Status</th><th>Pick up at</th></tr></thead>
+        <tbody>
+            @for (int i = 0; i < queue.Count; i++)
+            {
+                var r = queue[i];
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@r.Borrower.FullName</td>
+                    <td>@r.CreatedAt.ToString("d MMM yyyy HH:mm")</td>
+                    <td>@r.Status</td>
+                    <td>@r.PickupBranch?.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div class="actions-row">
+    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-secondary" asp-action="Index">Back to catalogue</a>
+</div>
